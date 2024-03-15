@@ -1,25 +1,37 @@
-import logo from './logo.svg';
 import './App.css';
 
+import TabLi from './components/TabLi';
+import { getLocalTabList } from './chrome_api/getTabList';
+import {useState, useEffect} from 'react';
+
 function App() {
+
+  const [tablist, setTablist] = useState([]);
+
+  useEffect(() => {
+    getLocalTabList(setTablist);
+  },[]);
+
+  console.log(tablist.length)
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+      <div>
+        <ul>
+          {
+            tablist.map(
+              (tab) =>{
+                console.log(tab.id);
+                 return <TabLi
+                    key = {tab.id}
+                    tab = {tab}
+                  ></TabLi>
+              }
+            )
+          }
+        </ul>
+      </div>
+    );
 }
 
 export default App;
