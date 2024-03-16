@@ -21,7 +21,7 @@ chrome.runtime.onInstalled.addListener(() => {
             chrome.tabs.remove(tab.id);
           });
           // storage로 저장 
-          addTab(tablist);
+          addLocalTab(tablist);
       });    
       // 요구사항 3 : 새 Tab을 열어서 1번에서의 정보를 제공한다. 
       chrome.tabs.create({
@@ -33,4 +33,19 @@ chrome.runtime.onInstalled.addListener(() => {
     // 이벤트 등록
     chrome.action.onClicked.addListener(tabEvent);
   });
+  
+  let addLocalTab = (currentTablist) => { 
+    chrome.storage.local.get(['tablist'],(result) => {
+      let storageTablist = result.tablist;
+      let saveTabList;
+      if(storageTablist){
+        saveTabList = [...currentTablist, ...storageTablist];
+      }else{
+        saveTabList = [...currentTablist];
+      }
+      chrome.storage.local.set({
+        tablist : saveTabList
+      });
+    });
+  }
   

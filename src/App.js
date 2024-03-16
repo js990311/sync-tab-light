@@ -1,35 +1,41 @@
 import './App.css';
 
 import TabLi from './components/TabLi';
-import { getLocalTabList } from './chrome_api/getTabList';
+import { getLocalTabList, deleteLocalTab } from './chrome_api/TabUtil';
 import {useState, useEffect} from 'react';
+import TabUl from './components/TabUl';
 
 function App() {
 
-  const [tablist, setTablist] = useState([]);
+  const [localTabList, setTablist] = useState([]);
 
   useEffect(() => {
     getLocalTabList(setTablist);
   },[]);
 
-  console.log(tablist.length)
+  let deleteLocalTabHandler = (id) => {
+    let ret = deleteLocalTab(localTabList, id);
+    setTablist(ret);
+  }
+
+  console.log(localTabList.length)
 
 
   return (
       <div>
-        <ul>
-          {
-            tablist.map(
-              (tab) =>{
-                console.log(tab.id);
-                 return <TabLi
-                    key = {tab.id}
-                    tab = {tab}
-                  ></TabLi>
-              }
-            )
-          }
-        </ul>
+        {
+          localTabList.length == 0
+            &&
+          <h1>There is No Tab in local</h1>
+        }
+        {
+          localTabList.length != 0
+            && 
+          <TabUl
+            tablist={localTabList}
+            deleteHandler = {deleteLocalTabHandler}
+          ></TabUl> 
+        }
       </div>
     );
 }
