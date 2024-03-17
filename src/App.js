@@ -1,7 +1,6 @@
 import './App.css';
 
-import TabLi from './components/TabLi';
-import { getLocalTabList, deleteLocalTab } from './chrome_api/TabUtil';
+import { getLocalTabList, deleteLocalTab, setLocalTabList } from './chrome_api/TabUtil';
 import {useState, useEffect} from 'react';
 import TabUl from './components/TabUl';
 
@@ -18,20 +17,23 @@ function App() {
     setTablist(ret);
   }
 
-  console.log(localTabList.length)
-
+  let dropHandler = (tablist) => {
+    setLocalTabList(setTablist, tablist);
+  }
 
   return (
       <div>
         {
-          localTabList.length == 0
+          localTabList.length === 0
             &&
           <h1>There is No Tab in local</h1>
         }
         {
-          localTabList.length != 0
+          localTabList.length !== 0
             && 
           <TabUl
+            droppableId="localTab"
+            dropHandler={dropHandler}
             tablist={localTabList}
             deleteHandler = {deleteLocalTabHandler}
           ></TabUl> 
