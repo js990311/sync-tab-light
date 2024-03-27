@@ -2,10 +2,13 @@ import './App.css';
 
 import { getLocalTabList, deleteLocalTab, setLocalTabList } from './chrome_api/TabUtil';
 import {useState, useEffect} from 'react';
-import TabUl from './components/TabUl';
+import TabUl from './components/tablist/TabUl';
+import SearchBar from './components/search/SearchBar';
+import TabListWrapper from './components/tablist/TabListWrapper'
+import SearchResult from './components/search/SearchResult';
 
 function App() {
-
+  const [query, setQuery] = useState('');
   const [localTabList, setTablist] = useState([]);
 
   useEffect(() => {
@@ -20,24 +23,31 @@ function App() {
   let dropHandler = (tablist) => {
     setLocalTabList(setTablist, tablist);
   }
-
   return (
       <div>
+        <SearchBar
+          query={query} 
+          setQuery={setQuery}
+        />
         {
-          localTabList.length === 0
-            &&
-          <h1>There is No Tab in local</h1>
-        }
-        {
-          localTabList.length !== 0
-            && 
-          <TabUl
-            droppableId="localTab"
+          query === '' 
+          &&         
+          <TabListWrapper
             dropHandler={dropHandler}
-            tablist={localTabList}
             deleteHandler = {deleteLocalTabHandler}
-          ></TabUl> 
+            localTabList = {localTabList}
+          />
         }
+        {
+          query !== ''
+          && 
+          <SearchResult
+            query={query}
+            tablist={localTabList}
+            deleteHandler={deleteLocalTabHandler}
+          />
+        }
+
       </div>
     );
 }

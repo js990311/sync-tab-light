@@ -1,7 +1,7 @@
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import TabLi from "./TabLi";
+import DTabLi from "./DTabLi";
 
-const TabUl =(props) => {
+const DTabUl =(props) => {
 
   const dragEndHandler = (result) => {
     if (!result.destination) return; 
@@ -22,12 +22,12 @@ const TabUl =(props) => {
               ref={provided.innerRef}
             >
               {props.tablist.map((tab, idx) =>{
-                    return <TabLi
+                    return <DTabLi
                         key = {tab.id}
                         index = {idx}
                         tab = {tab}
                         deleteHandler = {props.deleteHandler}
-                    ></TabLi>
+                    ></DTabLi>
                 })}
               {provided.placeholder}
             </ul>   
@@ -38,4 +38,4 @@ const TabUl =(props) => {
   )
 }
 
-export default TabUl;
+export default DTabUl;

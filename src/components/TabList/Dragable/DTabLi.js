@@ -1,6 +1,9 @@
 import { Draggable } from "react-beautiful-dnd"
+import TabLi from "../TabLi"
+import { Fragment } from "react"
+import TabLiContent from "../TabLiContent"
 
-export default function TabLi(props){
+export default function DTabLi(props){
   return (
     <Draggable
       key={props.index} draggableId={props.index.toString()}
@@ -9,19 +12,14 @@ export default function TabLi(props){
       {
         (provided) => (
             <li 
-              className='tabLi'
               {...provided.draggableProps}
               {...provided.dragHandleProps}
               ref={provided.innerRef}
             >
-              <button onClick={()=>{props.deleteHandler(props.tab.id)}}>
-                삭제
-              </button>
-              <div>
-                <a href={props.tab.url}>
-                  {props.tab.title}({props.tab.url})
-                </a>
-              </div>
+                <TabLiContent
+                    deleteHandler={()=>{props.deleteHandler(props.tab.id)}}
+                    tab={props.tab}
+                />
             </li>
         )
       }

@@ -1,10 +1,8 @@
 /*global chrome*/
 
-export const getLocalTabList = (setTablist) => {
-    console.log("log-getLocalTabList");
-    
+export const getLocalTabList = (setTablist) => {    
     // Mock data
-  //  setTablist(getMockTabList());
+    //  setTablist(getMockTabList());
 
     chrome.storage.local.get(['tablist'], function(result) {
         setTablist(result.tablist);
@@ -16,13 +14,24 @@ const getMockTabList = () => {
       {
           id : "123",
           title : "title",
-          url : "localhost:8080/"
+          url : "localhost:3000/"
       },
       {
         id : "456",
         title : "dummy",
-        url : "localhost:8080/"
-     }
+        url : "localhost:3000/"
+     },
+     {
+      id : "789",
+      title : "한글검색테스트1",
+      url : "localhost:3000/"
+    },
+    {
+      id : "999",
+      title : "한글검색테스트2",
+      url : "localhost:3000/"
+    }
+
   ]
 }
 
